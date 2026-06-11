@@ -222,7 +222,7 @@ button { font: inherit; cursor: pointer; }
 .smaller { margin-top: clamp(50px, 7vw, 80px); }
 .smaller h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; }
 .smaller li { list-style: none; padding: 13px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
-.smaller li::before { content: "\u21b3 "; color: var(--ink); }
+.smaller li::before { content: "↳ "; color: var(--ink); }
 
 /* ============ case study ============ */
 .cs-hero { padding: 150px 0 clamp(50px, 7vw, 80px); }
