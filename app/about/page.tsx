@@ -48,7 +48,7 @@ export default function About() {
             </div>
           </Reveal>
         </div>
-        <MarginNote style={{ top: "22%", right: "3%" }}>
+        <MarginNote style={{ top: "6%", right: "1%" }}>
           ask me about the 30-store rollout. i have stories &rarr;
         </MarginNote>
       </div>
