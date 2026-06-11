@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     description: "I design the whole system, not just the screen.",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
