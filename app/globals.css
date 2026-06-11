@@ -371,3 +371,10 @@ button { font: inherit; cursor: pointer; }
 .pinch { display: flex; gap: 34px; transition: gap 0.5s var(--ease); }
 .pinch i { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); transition: transform 0.5s var(--ease); }
 .pinch-card:hover .pinch { gap: 6px; }
+
+@media (max-width: 1500px) {
+  .cs-body .mnote, .cs-section .mnote {
+    display: none;
+  }
+}
+

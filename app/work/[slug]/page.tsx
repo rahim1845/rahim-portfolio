@@ -94,7 +94,7 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
               </div>
             </Reveal>
 
-            {p.marginNote && <MarginNote style={{ top: "12%", right: "-180px" }}>{p.marginNote}</MarginNote>}
+            {p.marginNote && <MarginNote style={{ top: "30%", right: "-10px" }}>{p.marginNote}</MarginNote>}
           </div>
         </div>
 
