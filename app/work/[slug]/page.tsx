@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import Mock from "@/components/Mocks";
 import Boldify from "@/components/Boldify";
 import MarginNote from "@/components/MarginNote";
+import MediaBlock from "@/components/MediaBlock";
 import { projects } from "@/lib/projects";
 
 export function generateStaticParams() {
@@ -85,6 +86,7 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
                     <Boldify text={para} />
                   </p>
                 ))}
+                {s.media && <MediaBlock items={s.media} />}
               </Reveal>
             ))}
 

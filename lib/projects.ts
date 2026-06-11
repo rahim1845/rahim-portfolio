@@ -1,4 +1,9 @@
-export type CaseSection = { h: string; body: string[] };
+export type Media =
+  | { type: "image"; src: string; wide?: boolean; caption?: string; alt?: string }
+  | { type: "video"; src: string; wide?: boolean; caption?: string; poster?: string }
+  | { type: "placeholder"; label: string; hint?: string; wide?: boolean };
+
+export type CaseSection = { h: string; body: string[]; media?: Media[] };
 
 export type Project = {
   slug: string;
@@ -74,6 +79,11 @@ export const projects: Project[] = [
           "Tokens came first: colour, type, spacing, radius, shadows, all defined inside Material\u2019s architecture, all checked against WCAG contrast before anything reached the codebase. Components came next. Material covers buttons and sheets, but quick commerce needs product cards with quantity steppers, cart rows, order timelines, store cards, address pickers. Every custom component was built inside the same token system, so change one token and it carries through all three apps.",
           "The system was designed less like a brand guideline and more like **shared infrastructure between design and engineering**. If it drifted from implementation, the product slowed down immediately.",
         ],
+        media: [
+          { type: "placeholder", label: "design system cover", hint: "the 'Design System' presentation shot: tokens, components, variants counts", wide: true },
+          { type: "placeholder", label: "token sheet", hint: "colour + type tokens as defined in figma" },
+          { type: "placeholder", label: "component sheet", hint: "product card, cart row, order timeline components" },
+        ],
       },
       {
         h: "The major roadblock: Dukan CMS",
@@ -83,6 +93,10 @@ export const projects: Project[] = [
           "The operator could only pick between two layout modes: three-column carousels with 4:3 cards, or four-column blocks with 1:1 cards. Anything else would break the grid, so it just wasn\u2019t an option. Bundles always render in multiples of three or four, so adding one item too many still lays out cleanly. The operator doesn\u2019t need to know why; **the rule just holds**. Render mode was separate from content, so the same bundle could switch between block and carousel without being rebuilt.",
           "The result: a homepage we could update in real time. Campaigns went live the day they were planned. We built the same pattern for pricing. Different surface, same idea: give just enough control, and let the system catch the rest.",
         ],
+        media: [
+          { type: "placeholder", label: "dukan operator panel", hint: "the screen where ops picks layout mode and adds items" },
+          { type: "placeholder", label: "bundle layouts", hint: "3-col carousel (4:3) vs 4-col block (1:1) on the homepage" },
+        ],
       },
       {
         h: "How we scaled: 0 \u2192 1 \u2192 30",
@@ -91,12 +105,19 @@ export const projects: Project[] = [
           "That first store surfaced edge cases in the order flow, cart friction that never showed in testing, and patterns in what people actually bought versus what we assumed. Each new store inherited everything we\u2019d already fixed and added its own learnings, usually around inventory edge cases.",
           "Most of what\u2019s on the live app now isn\u2019t what we shipped at launch. It\u2019s **what survived two years of real users across thirty stores**.",
         ],
+        media: [
+          { type: "placeholder", label: "admin operations dashboard", hint: "one geofence, thirty stores: the ops view", wide: true },
+        ],
       },
       {
         h: "Smaller decisions that were really systems decisions",
         body: [
           "Every workflow had to stay synchronized across three interconnected systems, so even small UX calls were architecture calls.",
           "**Phone-first onboarding**: register with OTP, no email, no password. The phone number became the delivery contact, the notification hub, and the identifier the store and admin used to track the order. One ID across all three apps. **Guest mode**: browse without signing up, cart saved locally, carried over on login. A few days of state-management work in exchange for an unblocked first session. **One geofence**: the 5km radius the customer saw was the same one the admin saw and the same one store flows used for assignment. **Checkout**: the delivery promise front-loaded (\u201cdeliver in 18 min\u201d) so urgency felt earned, free-delivery threshold nudges, and one active coupon at a time, which prevented stacking abuse without building a discount engine.",
+        ],
+        media: [
+          { type: "placeholder", label: "onboarding \u00b7 otp", hint: "phone-first signup" },
+          { type: "placeholder", label: "checkout", hint: "the 'deliver in 18 min' promise front-loaded" },
         ],
       },
     ],
@@ -134,6 +155,10 @@ export const projects: Project[] = [
         h: "What I designed",
         body: [
           "Three connected admin workflows. **Assessment creation**: a builder for assembling tests from a structured question bank, with reusable templates so recurring assessments didn\u2019t start from zero. **Candidate tracking**: a single pipeline view of every candidate\u2019s stage, from invited through completed to evaluated, replacing the spreadsheet-and-email relay. **Admin flows**: scheduling, assignment, and result review designed for the people running the process daily, not occasionally.",
+        ],
+        media: [
+          { type: "placeholder", label: "assessment builder", hint: "export from the contra case study" },
+          { type: "placeholder", label: "candidate pipeline", hint: "export from the contra case study" },
         ],
       },
       {
@@ -184,6 +209,10 @@ export const projects: Project[] = [
         body: [
           "Input is a text prompt (\u201ccalm fintech, trustworthy, slightly warm\u201d) or a single seed hex colour. Output is a complete SaaS token set: full colour ramps with semantic roles, a type scale, spacing, radii, shadows, and animation values, structured and ready to drop into a codebase or Tokens Studio.",
           "Under the hood it\u2019s a **dual-model architecture**: Claude Sonnet does the heavy generation against a strict schema, Claude Haiku handles the fast, cheap naming passes. Responses stream so the designer watches the system assemble instead of staring at a spinner. Every output is validated with Zod before it renders; if the model returns something malformed, the user never sees it.",
+        ],
+        media: [
+          { type: "placeholder", label: "generation recording", hint: "15\u201330s screen capture: prompt typed \u2192 ramps streaming in", wide: true },
+          { type: "placeholder", label: "full token output", hint: "the complete generated set, one screenshot" },
         ],
       },
       {
