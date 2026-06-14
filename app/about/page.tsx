@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
+import SecHead from "@/components/SecHead";
 import Highlight from "@/components/Highlight";
 import MarginNote from "@/components/MarginNote";
 
@@ -9,12 +10,10 @@ export default function About() {
   return (
     <section className="section" style={{ paddingTop: 150 }}>
       <div className="wrap" style={{ position: "relative" }}>
-        <Reveal className="sec-head">
-          <h2 className="sec-title">
-            About, <span className="serif-i">briefly</span>
-          </h2>
-          <span className="sec-count mono">engineer first, designer by conviction</span>
-        </Reveal>
+        <SecHead
+          title={<>About, <span className="serif-i">briefly</span></>}
+          count="engineer first, designer by conviction"
+        />
         <div className="about-grid">
           <Reveal className="portrait">
             <span className="init">RR</span>

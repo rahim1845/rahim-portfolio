@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import SecHead from "@/components/SecHead";
 import { projects, smallerThings } from "@/lib/projects";
 
 export const metadata: Metadata = { title: "Work \u2014 Rahim Rangrez" };
@@ -9,12 +10,10 @@ export default function WorkIndex() {
   return (
     <section className="section" style={{ paddingTop: 150 }}>
       <div className="wrap">
-        <Reveal className="sec-head">
-          <h2 className="sec-title">
-            All <span className="serif-i">work</span>
-          </h2>
-          <span className="sec-count mono">3 case studies &middot; 4 smaller things &middot; all real</span>
-        </Reveal>
+        <SecHead
+          title={<>All <span className="serif-i">work</span></>}
+          count="3 case studies · 4 smaller things · all real"
+        />
 
         {projects.map((p) => (
           <Reveal key={p.slug}>

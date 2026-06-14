@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const TOKENS = ["I", "design", "the", "whole"];
 
@@ -47,8 +48,28 @@ export default function HeroHeadline() {
         if (caret) caret.style.display = "none";
       });
 
+    gsap.registerPlugin(ScrollTrigger);
+    const eyebrow = document.querySelector<HTMLElement>(".hero-eyebrow");
+    const parallax = gsap.to(el, {
+      yPercent: -7,
+      ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+    });
+    const eyebrowFade = eyebrow
+      ? gsap.to(eyebrow, {
+          yPercent: -40,
+          opacity: 0.2,
+          ease: "none",
+          scrollTrigger: { trigger: ".hero", start: "top top", end: "60% top", scrub: true },
+        })
+      : null;
+
     return () => {
       tl.kill();
+      parallax.scrollTrigger?.kill();
+      parallax.kill();
+      eyebrowFade?.scrollTrigger?.kill();
+      eyebrowFade?.kill();
     };
   }, []);
 

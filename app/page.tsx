@@ -1,6 +1,8 @@
 import Link from "next/link";
 import HeroHeadline from "@/components/HeroHeadline";
+import DraftingTable from "@/components/DraftingTable";
 import Reveal from "@/components/Reveal";
+import SecHead from "@/components/SecHead";
 import MarginNote from "@/components/MarginNote";
 import Mock from "@/components/Mocks";
 import Highlight from "@/components/Highlight";
@@ -35,14 +37,14 @@ export default function Home() {
         </MarginNote>
       </section>
 
+      <DraftingTable />
+
       <section className="section" id="work">
         <div className="wrap">
-          <Reveal className="sec-head">
-            <h2 className="sec-title">
-              Selected <span className="serif-i">work</span>
-            </h2>
-            <span className="sec-count mono">03 case studies &middot; real products, real numbers</span>
-          </Reveal>
+          <SecHead
+            title={<>Selected <span className="serif-i">work</span></>}
+            count="03 case studies · real products, real numbers"
+          />
 
           {projects.map((p, i) => (
             <Reveal as="article" key={p.slug} className={"project" + (i % 2 === 1 ? " flip" : "")}>
@@ -77,12 +79,10 @@ export default function Home() {
 
       <section className="section deep">
         <div className="wrap">
-          <Reveal className="sec-head">
-            <h2 className="sec-title">
-              The <span className="serif-i">playground</span>
-            </h2>
-            <span className="sec-count mono">tools i actually built, rules i actually shipped</span>
-          </Reveal>
+          <SecHead
+            title={<>The <span className="serif-i">playground</span></>}
+            count="tools i actually built, rules i actually shipped"
+          />
           <Reveal>
             <p style={{ color: "var(--muted)", maxWidth: "52ch", marginBottom: 28, fontSize: "1.1rem" }}>
               Working experiments: an AI theme generator, Figma automation, gesture tracking, and the
@@ -97,12 +97,10 @@ export default function Home() {
 
       <section className="section">
         <div className="wrap">
-          <Reveal className="sec-head">
-            <h2 className="sec-title">
-              Writing, <span className="serif-i">occasionally</span>
-            </h2>
-            <span className="sec-count mono">less polished, more honest than this page</span>
-          </Reveal>
+          <SecHead
+            title={<>Writing, <span className="serif-i">occasionally</span></>}
+            count="less polished, more honest than this page"
+          />
           {articles.map((a) => (
             <Reveal key={a.url}>
               <a className="work-row" href={a.url} target="_blank" rel="noreferrer">
@@ -121,12 +119,10 @@ export default function Home() {
 
       <section className="section deep">
         <div className="wrap">
-          <Reveal className="sec-head">
-            <h2 className="sec-title">
-              About, <span className="serif-i">briefly</span>
-            </h2>
-            <span className="sec-count mono">engineer first, designer by conviction</span>
-          </Reveal>
+          <SecHead
+            title={<>About, <span className="serif-i">briefly</span></>}
+            count="engineer first, designer by conviction"
+          />
           <Reveal>
             <p style={{ fontSize: "clamp(1.1rem, 1.8vw, 1.4rem)", maxWidth: "46ch", marginBottom: 28 }}>
               I came to design from mechanical engineering, which is why I can&apos;t treat an interface

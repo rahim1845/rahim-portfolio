@@ -1,7 +1,8 @@
 export type Media =
   | { type: "image"; src: string; wide?: boolean; caption?: string; alt?: string }
   | { type: "video"; src: string; wide?: boolean; caption?: string; poster?: string }
-  | { type: "placeholder"; label: string; hint?: string; wide?: boolean };
+  | { type: "placeholder"; label: string; hint?: string; wide?: boolean }
+  | { type: "widget"; name: string; wide?: boolean };
 
 export type CaseSection = { h: string; body: string[]; media?: Media[] };
 
@@ -64,6 +65,7 @@ export const projects: Project[] = [
           "Inventory mismatches were constant. Products shown in the app were often unavailable in-store, forcing the system to handle substitutions, cancellations, and missing products dynamically across every interface. As order volume grew, stores slowed down, riders waited, and fulfilment queues stacked up. Customers only saw \u201clate delivery\u201d; internally the issue was operational coordination.",
           "Most of the work wasn\u2019t adding features. It was **reducing operational gaps** so the system could survive real usage. Quick commerce breaks when systems stop syncing.",
         ],
+        media: [{ type: "widget", name: "system-map", wide: true }],
       },
       {
         h: "Building it small",
@@ -80,9 +82,8 @@ export const projects: Project[] = [
           "The system was designed less like a brand guideline and more like **shared infrastructure between design and engineering**. If it drifted from implementation, the product slowed down immediately.",
         ],
         media: [
-          { type: "placeholder", label: "design system cover", hint: "the 'Design System' presentation shot: tokens, components, variants counts", wide: true },
-          { type: "placeholder", label: "token sheet", hint: "colour + type tokens as defined in figma" },
-          { type: "placeholder", label: "component sheet", hint: "product card, cart row, order timeline components" },
+          { type: "widget", name: "bp-tokens" },
+          { type: "widget", name: "bp-components" },
         ],
       },
       {
@@ -94,8 +95,7 @@ export const projects: Project[] = [
           "The result: a homepage we could update in real time. Campaigns went live the day they were planned. We built the same pattern for pricing. Different surface, same idea: give just enough control, and let the system catch the rest.",
         ],
         media: [
-          { type: "placeholder", label: "dukan operator panel", hint: "the screen where ops picks layout mode and adds items" },
-          { type: "placeholder", label: "bundle layouts", hint: "3-col carousel (4:3) vs 4-col block (1:1) on the homepage" },
+          { type: "widget", name: "dukan-rule", wide: true },
         ],
       },
       {
@@ -106,7 +106,7 @@ export const projects: Project[] = [
           "Most of what\u2019s on the live app now isn\u2019t what we shipped at launch. It\u2019s **what survived two years of real users across thirty stores**.",
         ],
         media: [
-          { type: "placeholder", label: "admin operations dashboard", hint: "one geofence, thirty stores: the ops view", wide: true },
+          { type: "widget", name: "scaling-map", wide: true },
         ],
       },
       {
@@ -116,7 +116,7 @@ export const projects: Project[] = [
           "**Phone-first onboarding**: register with OTP, no email, no password. The phone number became the delivery contact, the notification hub, and the identifier the store and admin used to track the order. One ID across all three apps. **Guest mode**: browse without signing up, cart saved locally, carried over on login. A few days of state-management work in exchange for an unblocked first session. **One geofence**: the 5km radius the customer saw was the same one the admin saw and the same one store flows used for assignment. **Checkout**: the delivery promise front-loaded (\u201cdeliver in 18 min\u201d) so urgency felt earned, free-delivery threshold nudges, and one active coupon at a time, which prevented stacking abuse without building a discount engine.",
         ],
         media: [
-          { type: "placeholder", label: "onboarding \u00b7 otp", hint: "phone-first signup" },
+          { type: "widget", name: "bp-flow" },
           { type: "placeholder", label: "checkout", hint: "the 'deliver in 18 min' promise front-loaded" },
         ],
       },
@@ -158,7 +158,7 @@ export const projects: Project[] = [
         ],
         media: [
           { type: "placeholder", label: "assessment builder", hint: "export from the contra case study" },
-          { type: "placeholder", label: "candidate pipeline", hint: "export from the contra case study" },
+          { type: "widget", name: "bp-pipeline" },
         ],
       },
       {
@@ -212,7 +212,7 @@ export const projects: Project[] = [
         ],
         media: [
           { type: "placeholder", label: "generation recording", hint: "15\u201330s screen capture: prompt typed \u2192 ramps streaming in", wide: true },
-          { type: "placeholder", label: "full token output", hint: "the complete generated set, one screenshot" },
+          { type: "widget", name: "bp-tokens" },
         ],
       },
       {

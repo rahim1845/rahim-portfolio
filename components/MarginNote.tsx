@@ -16,8 +16,16 @@ export default function MarginNote({ children, style }: { children: React.ReactN
     gsap.registerPlugin(ScrollTrigger);
     const tween = gsap.fromTo(
       el,
-      { opacity: 0, y: 14, rotation: -5 },
-      { opacity: 1, y: 0, rotation: -2, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 78%" } }
+      { opacity: 1, clipPath: "inset(0 100% 0 0)", y: 10, rotation: -6 },
+      {
+        opacity: 1,
+        clipPath: "inset(0 0% 0 0)",
+        y: 0,
+        rotation: -2,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: { trigger: el, start: "top 80%" },
+      }
     );
     return () => {
       tween.scrollTrigger?.kill();
