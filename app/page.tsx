@@ -33,10 +33,8 @@ export default function Home() {
         </div>
         <div className="hero-media">
           <figure className="portrait hero-portrait">
-            {/* Drop in your image/clip here, e.g. <img src="/work/rahim.jpg" alt="Rahim Rangrez" />
-                or <video src="/work/rahim.mp4" autoPlay muted loop playsInline /> */}
-            <span className="init">RR</span>
-            <span className="ph-note mono">a photo — or a short, quiet clip of you working</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/work/rahim.webp" alt="Rahim Rangrez at his desk, behind a laptop" />
           </figure>
         </div>
         <div className="hero-scroll mono" id="heroScroll" style={{ opacity: 0 }}>
