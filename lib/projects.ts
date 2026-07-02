@@ -17,7 +17,7 @@ export type Project = {
   year: string;
   meta: { k: string; v: string }[];
   outcomeLine: string;
-  mock: "tingting" | "assessment" | "themeforge";
+  mock: "tingting" | "assessment" | "themeforge" | "glassbox";
   marginNote?: string;
   external?: { label: string; url: string };
   images?: { src: string; wide?: boolean }[];
@@ -233,6 +233,81 @@ export const projects: Project[] = [
     reflection:
       "I let scope creep into a full theme-history feature before nailing the regenerate-a-slice flow, which was the actual differentiator. The lesson is the same one from Dukan, just pointed at myself this time: decide the one question the tool must answer, and let everything else come from that.",
   },
+  {
+    slug: "glassbox",
+    titlePre: "Glassbox: an AI agent builder you can actually ",
+    titleItalic: "debug",
+    titlePost: "",
+    summary:
+      "A working AI agent builder where the run trace, not the canvas, is the home screen. When an agent does the wrong thing, Glassbox localises the failure to a layer — prompt, tool, context, or model — and lets you re-run just that step. It turns prompt-roulette into targeted fixes. Built solo with the Claude API.",
+    tags: ["ai product", "agent tooling", "2026"],
+    status: "side product",
+    year: "2026",
+    meta: [
+      { k: "role", v: "designer + builder · solo" },
+      { k: "stack", v: "next.js 14 · typescript · claude api (tool use)" },
+      { k: "timeline", v: "2026 · nights and weekends" },
+      { k: "status", v: "working prototype · in active use on my own agents" },
+      { k: "the one question", v: "can the builder fix the right thing on the first try?" },
+    ],
+    outcomeLine: "prompt-roulette → localise + scoped replay · ~10 blind re-runs down to 2–3 targeted edits",
+    mock: "glassbox",
+    marginNote: "the canvas was the easy part. trust was the product.",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "Every agent platform now ships the same thing: a canvas where you drag steps and tools into a flow. Assembling an agent has become a solved problem. Running one you can **trust** has not.",
+          "I kept building small agents for my own work — a research agent, a support-triage agent — and kept hitting the same wall. It would behave in testing, then do something wrong in the wild, and I couldn’t tell **why**. So I’d tweak the prompt, re-run the whole thing, and hope. I built Glassbox to kill that loop.",
+        ],
+      },
+      {
+        h: "The problem: prompt roulette",
+        body: [
+          "When an agent misbehaves, the cause is almost never obvious. Did the **prompt** steer it wrong? Did a **tool** return garbage? Was the **context** missing a key fact? Or did the **model** just fumble? Most tools answer this with a wall of raw JSON, or nothing at all.",
+          "So builders do what I did: change one thing, re-run the entire agent (slow, and often non-deterministic), and guess again. I call it **prompt roulette**. It’s why agents get abandoned — not at the build step, but at the make-it-reliable step. Across agent-builder communities it’s the single most common complaint: “works in the demo, fails in prod, can’t tell why.”",
+          "Try the loop yourself — this is a real run that failed, the way Glassbox shows it:",
+        ],
+        media: [{ type: "widget", name: "glassbox-demo", wide: true }],
+      },
+      {
+        h: "The insight",
+        body: [
+          "The build canvas is commoditised — everyone has one, and it isn’t where people get stuck. They get stuck in the loop between a **failure and a fix**.",
+          "So the unit to design isn’t the canvas; it’s the **run trace and the fix loop**. Make every run legible and diffable, attribute each failure to a layer, and scope the fix to the failing step. It’s the same bet I made with ThemeForge: design the layer where a few decisions cascade, not the surface sitting on top of it.",
+        ],
+      },
+      {
+        h: "What I designed",
+        body: [
+          "**The run trace is the home screen.** A timeline of every step — what the agent saw, what it decided and why, the exact tool call and arguments, and what came back. Each step expands; the failing step is flagged.",
+          "**Failure attribution.** Every failure is tagged by its most likely layer — prompt, tool, context, or model — with the evidence for the guess, so you fix the right thing instead of reaching for the prompt by reflex.",
+          "**Scoped replay.** Fix at the failing step and re-run **just that step** against the captured input, instead of re-running the whole agent. Targeted iteration, not roulette.",
+          "**Cases are first-class.** Any real run can be saved as a test case, so you build an eval set by *using* the agent — reliability you can measure, not vibes. And streaming is the trust device throughout: you watch the agent think and act in real time instead of staring at a spinner.",
+        ],
+        media: [
+          { type: "widget", name: "bp-flow" },
+          { type: "placeholder", label: "cases / eval set", hint: "saved runs becoming a regression set" },
+        ],
+      },
+      {
+        h: "The hard part: blaming the right layer",
+        body: [
+          "Attribution is what makes Glassbox more than a log viewer, and it’s the hardest thing to get right. A wrong tool result and a missing piece of context can look identical three steps downstream.",
+          "I started with hard rules and they mis-blamed constantly. What worked better: attribute with a **confidence**, **show the evidence** behind the guess, and — critically — let the builder **correct it in one click**. A wrong guess you can fix in a second is useful; a *confident* wrong guess is worse than no guess at all. That correction is also the signal that makes attribution better over time.",
+        ],
+      },
+      {
+        h: "What it taught me about AI UX",
+        body: [
+          "I over-built the canvas first — two weekends on drag-drop niceties before admitting nobody abandons at the canvas. The trace was the product the whole time.",
+          "The broader lesson is one I keep relearning: **latency is a design surface, failure is a design surface**, and trust lives in the gap between “the model did something” and “I understand what it did.” Glassbox is just that gap, turned into a screen.",
+        ],
+      },
+    ],
+    reflection:
+      "Two honest things. The attribution is still heuristic — right often enough to save real time, but I shipped it before building the correction-learning loop that would make it compound, which is backwards from how I’d tell anyone else to sequence it. And I haven’t put it in front of enough other builders yet: everything I claim about the loop is from my own use across a handful of agents. The next real step isn’t more features — it’s five builders, their own agents, and watching where they still get stuck.",
+  },
 ];
 
 export const smallerThings = [
@@ -262,5 +337,215 @@ export const articles = [
     title: "What exactly is a persona, and why most designers misuse it",
     where: "LinkedIn",
     url: "https://www.linkedin.com/pulse/what-exactly-persona-why-most-designers-misuse-abdul-rahim-rangrez-3c7nf/",
+  },
+];
+
+export type PlayItem = {
+  title: string;
+  tools: string[];
+  format: string;
+  desc: string;
+  long: string;
+  slug?: string;
+  href?: string;
+  thumb?: string;
+  demo?: string;
+  sections?: { h: string; body: string[] }[];
+};
+
+export const playlist: PlayItem[] = [
+  {
+    title: "ThemeForge — ramp generator",
+    tools: ["Claude API", "Next.js", "Zod"],
+    format: "a weekend",
+    desc: "Prompt or a seed hex → a full, usable colour ramp with semantic roles. The seed that grew into the whole tool.",
+    long: "Type a vibe — “calm fintech, trustworthy, slightly warm” — or drop a single seed hex, and it generates a complete token set: colour ramps with semantic roles, a type scale, spacing and radii. Every output is validated against a strict Zod schema so it’s always usable, and it streams so you watch the system assemble instead of staring at a spinner. This weekend build grew into the full case study.",
+    href: "/work/themeforge",
+  },
+  {
+    title: "Glassbox — scoped replay",
+    tools: ["Claude API", "tool use", "Next.js"],
+    format: "in progress",
+    desc: "Re-run one failed step of an agent instead of the whole thing. Killing prompt-roulette.",
+    long: "An agent builder where the run trace, not the canvas, is the home screen. When a run fails, Glassbox localises the failure to a layer — prompt, tool, context, or model — and lets you replay just that step instead of re-running the whole agent. The scoped-replay loop is live and clickable inside the case study.",
+    href: "/work/glassbox",
+  },
+  {
+    title: "Figma design-system builder",
+    slug: "figma-ds-builder",
+    tools: ["Figma Plugin API", "Claude"],
+    format: "3 nights",
+    desc: "A plugin that scaffolds tokens, components and variant sets from a single prompt.",
+    long: "A Figma plugin that reads a prompt and scaffolds a starter design system directly on the canvas — tokens, base components, and variant sets — through the Plugin API, with Claude handling the naming and structure passes. From empty file to a coherent kit in one step.",
+    demo: "dsbuilder",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "Starting a design system from an empty Figma file is the same hour of busywork every time: set up the colour styles, name them, build a button with its states, a card, an input, wire the variants. I wanted to skip to the part that’s actually design.",
+        ],
+      },
+      {
+        h: "The problem",
+        body: [
+          "The first hour of every system is **mechanical, not creative** — and doing it by hand means every system starts a little differently, with slightly different names and structure. The drudgery is also where the drift creeps in.",
+        ],
+      },
+      {
+        h: "How it works",
+        body: [
+          "Type a brief. The plugin generates a **token set** — colour ramps with roles, radius, a type scale — then scaffolds the **base components** from those tokens, on the canvas, via the Plugin API. Claude handles naming and structure; a fixed schema keeps it consistent. You start from a coherent kit instead of a blank file. Try the brief picker above.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Prototype auto-wiring",
+    slug: "figma-auto-wiring",
+    tools: ["Figma Plugin API"],
+    format: "1 day",
+    desc: "Interactions and variant transitions set programmatically with setReactionsAsync.",
+    long: "An exploration of wiring Figma prototypes from data instead of by hand: setting interactions and variant transitions programmatically with setReactionsAsync, so an entire flow can be connected — and re-connected — from a description rather than dragging noodles between frames.",
+    demo: "autowire",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "Prototyping a flow in Figma means dragging connection noodles between frames, one interaction at a time. Past a few screens it’s tedious and brittle — change a frame and you re-wire by hand.",
+        ],
+      },
+      {
+        h: "The problem",
+        body: [
+          "Prototype interactions live as **manual gestures, not data**. There’s no way to say “connect this flow” — you connect it click by click, and it falls apart the moment the structure changes.",
+        ],
+      },
+      {
+        h: "How it works",
+        body: [
+          "Describe the flow as data — which frame goes where, on which trigger — and set every reaction programmatically with **setReactionsAsync**. The whole prototype wires itself, and re-wires when the data changes. Hit auto-wire above to watch it connect.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Touchless case-study nav",
+    slug: "touchless-nav",
+    tools: ["MediaPipe Hands", "JS"],
+    format: "a weekend",
+    desc: "Webcam gesture tracking — pinch to advance. Browsing a portfolio without touching it.",
+    long: "A webcam prototype built on MediaPipe Hands: pinch to advance, open palm to go back. The question was whether a case study could be browsed hands-free — it turned out useful, slightly magical, and occasionally chaotic when the lighting was bad.",
+    demo: "touchless",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "A what-if: could you browse a case study without touching anything — across a room, hands busy, mid-demo? I wanted to feel whether gesture nav was genuinely useful or just a party trick.",
+        ],
+      },
+      {
+        h: "The problem",
+        body: [
+          "Gesture interfaces usually fail on two fronts: **latency** (the gesture lags the intent) and **ambiguity** (the system can’t tell a pinch from a fist). Either one kills the feeling of control.",
+        ],
+      },
+      {
+        h: "How it works",
+        body: [
+          "MediaPipe Hands tracks the hand in the webcam; a pinch (thumb-to-index) advances, an open palm goes back. The real work was **debouncing** — a movement threshold and a cooldown so one pinch counts once. The control above simulates the gesture; the real build reads your camera.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Design-system teardowns",
+    slug: "ds-teardowns",
+    tools: ["Figma console", "Tokens Studio"],
+    format: "ongoing",
+    desc: "Extracting and rebuilding production design systems as console scripts and tokens JSON.",
+    long: "A habit and a small toolkit for reverse-engineering design systems I admire into portable, structured data — so I can understand how they were actually built, not just look at them.",
+    demo: "teardown",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "Every few weeks I find a design system I want to understand — in a live product, a Figma community file, a competitor’s app. Screenshotting it teaches me nothing. I want the **system**, not the picture: the token structure, the naming, where it’s consistent and where it quietly isn’t.",
+          "So instead of admiring systems from the outside, I started tearing them down — pulling them apart into something I can read, rebuild, and learn from.",
+        ],
+      },
+      {
+        h: "The problem",
+        body: [
+          "A design system inside a Figma file or a live site is **locked in its medium**. You can see the colours and components, but not the structure underneath — which greys are actually the same, what’s a primitive versus a semantic role, how the type scale steps, where two near-identical values should have been one token.",
+          "To learn from a system (or migrate it), you need it as **portable, structured data** — not a flattened artifact you can only look at.",
+        ],
+      },
+      {
+        h: "How it works",
+        body: [
+          "**Extract, don’t recreate.** A Figma console script walks the document’s styles and components and pulls every raw value — fills, text styles, effects, spacing — into a flat list.",
+          "**Normalise into a token model.** Map the raw values onto a structured schema: primitives (raw colours, sizes) and semantics (roles like *surface*, *accent*). This is where the real structure shows up — and where the inconsistencies surface.",
+          "**Export as Tokens Studio JSON.** Output a clean, portable set that drops straight into Tokens Studio or a codebase, so the torn-down system can be rebuilt, compared, or migrated. The teardown isn’t the deliverable — the understanding is.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Token-stream perception study",
+    slug: "token-stream",
+    tools: ["JS"],
+    format: "an evening",
+    desc: "Why streamed text feels alive — recreated and slowed down to see the trick.",
+    long: "A tiny study recreating why streamed LLM text feels alive: the same words, revealed token-by-token at the right cadence, read as “thinking” instead of “loading.” Slowed right down so you can see exactly where the perception of intelligence comes from.",
+    demo: "tokenstream",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "Streamed model responses feel alive in a way the same text dumped at once doesn’t. I wanted to know exactly **why** — and whether it’s the content or purely the timing.",
+        ],
+      },
+      {
+        h: "What it showed",
+        body: [
+          "It’s the timing. The same sentence, revealed at roughly reading cadence, reads as **a mind working**; shown instantly, it reads as a wall to skim. Latency, used deliberately, becomes a trust signal instead of a cost.",
+        ],
+      },
+      {
+        h: "How it works",
+        body: [
+          "The same passage rendered two ways — streamed at ~105ms/word with a caret, or instant. Toggle them above and the difference in *felt* intelligence is obvious, with nothing changed but the cadence. It’s the principle ThemeForge and Glassbox both lean on.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Honest skeletons",
+    slug: "honest-skeletons",
+    tools: ["CSS"],
+    format: "an evening",
+    desc: "Loading states shaped like the answer, not like a lie.",
+    long: "Loading skeletons shaped like the actual answer — same layout, same rhythm — so the wait sets a true expectation instead of a generic shimmer that misrepresents what’s coming. A small argument that loading states are a design surface, not an afterthought.",
+    demo: "skeletons",
+    sections: [
+      {
+        h: "Why I built it",
+        body: [
+          "Most loading skeletons are a generic shimmer that has nothing to do with what’s coming. I wanted to argue — in code — that a loading state is a **design decision**, not a default.",
+        ],
+      },
+      {
+        h: "The problem",
+        body: [
+          "A generic skeleton sets a **false expectation**. When the real content lands it doesn’t match, the layout lurches, and the wait turns out to have been a small lie about what was loading.",
+        ],
+      },
+      {
+        h: "How it works",
+        body: [
+          "An honest skeleton mirrors the actual answer — same layout, same rhythm, same number of lines — so when content resolves, **nothing moves**. Toggle honest vs generic above and reload: the honest one settles in place; the generic one jumps.",
+        ],
+      },
+    ],
   },
 ];

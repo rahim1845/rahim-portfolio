@@ -2,23 +2,29 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const fmt = (v: number) => (v >= 1000 ? Math.round(v).toLocaleString("en-US") : String(Math.round(v)));
-
 export default function CountUp({
   to,
   prefix = "",
   suffix = "",
+  decimals = 0,
   duration = 1400,
   className,
 }: {
   to: number;
   prefix?: string;
   suffix?: string;
+  decimals?: number;
   duration?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [val, setVal] = useState(0);
+  const fmt = (v: number) =>
+    decimals > 0
+      ? v.toFixed(decimals)
+      : v >= 1000
+      ? Math.round(v).toLocaleString("en-US")
+      : String(Math.round(v));
 
   useEffect(() => {
     const el = ref.current;

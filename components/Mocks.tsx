@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-type MockKind = "tingting" | "assessment" | "themeforge";
+type MockKind = "tingting" | "assessment" | "themeforge" | "glassbox";
 
 export default function Mock({ kind }: { kind: MockKind }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,10 +16,10 @@ export default function Mock({ kind }: { kind: MockKind }) {
 
     gsap.registerPlugin(ScrollTrigger);
     const sel = (s: string) => Array.from(root.querySelectorAll<HTMLElement>(s));
-    const rows = sel(".order-head, .order-step, .adm-row, .src-row, .tf-prompt, .tf-label");
-    const checks = sel(".order-step.done .st, .chipst.pass");
+    const rows = sel(".order-head, .order-step, .adm-row, .src-row, .tf-prompt, .tf-label, .gb-head, .gb-row");
+    const checks = sel(".order-step.done .st, .chipst.pass, .gb-row.done .gb-tick, .gb-row.fail .gb-x");
     const swatches = sel(".tf-swatches i");
-    const subs = sel(".sub-chip");
+    const subs = sel(".sub-chip, .gb-chip, .gb-replay");
 
     if (rows.length) gsap.set(rows, { opacity: 0, y: 12 });
     if (checks.length) gsap.set(checks, { scale: 0, transformOrigin: "center" });
@@ -74,6 +74,24 @@ export default function Mock({ kind }: { kind: MockKind }) {
         <div className="adm-row"><span>Arjun K.</span><span className="chipst">in progress</span></div>
         <div className="adm-row"><span>Sneha R.</span><span className="chipst">invited</span></div>
         <div className="adm-row"><span>Vikram T.</span><span className="chipst pass">evaluated &middot; 74%</span></div>
+      </div>
+    );
+  }
+  if (kind === "glassbox") {
+    return (
+      <div className="p-visual" ref={ref} aria-hidden="true">
+        <div className="win-bar"><i /><i /><i /></div>
+        <div className="gb-head">
+          <span>run &middot; triage-agent &middot; #A91</span>
+          <span className="gb-status fail">failed</span>
+        </div>
+        <div className="gb-row done"><span className="gb-tick">&#10003;</span>read context</div>
+        <div className="gb-row done"><span className="gb-tick">&#10003;</span>decided &middot; call get_order</div>
+        <div className="gb-row fail">
+          <span className="gb-x">&#10007;</span>tool &middot; get_order(id) &rarr; empty
+          <span className="gb-chip">context</span>
+        </div>
+        <div className="gb-replay mono">&#8635; replay this step</div>
       </div>
     );
   }

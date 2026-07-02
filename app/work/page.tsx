@@ -4,7 +4,11 @@ import Reveal from "@/components/Reveal";
 import SecHead from "@/components/SecHead";
 import { projects, smallerThings } from "@/lib/projects";
 
-export const metadata: Metadata = { title: "Work \u2014 Rahim Rangrez" };
+export const metadata: Metadata = {
+  title: "Work",
+  description: "Four case studies \u2014 quick commerce at scale, B2B admin UX, and working AI products \u2014 plus smaller shipped things.",
+  alternates: { canonical: "/work" },
+};
 
 export default function WorkIndex() {
   return (
@@ -12,7 +16,7 @@ export default function WorkIndex() {
       <div className="wrap">
         <SecHead
           title={<>All <span className="serif-i">work</span></>}
-          count="3 case studies · 4 smaller things · all real"
+          count="4 case studies · 4 smaller things · all real"
         />
 
         {projects.map((p) => (

@@ -1,22 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-type Intensity = "restrained" | "cinematic";
+type Media = { type: "image" | "video"; src: string };
+type Surface = { tag: string; note: string; slug: string; media: Media; x: number; y: number; z: number; appear: number };
 
-const SURFACES = [
-  { tag: "customer app", note: "quick commerce", slug: "tingting", lines: ["a", "b", "c"], x: -150, y: -22, z: -40, appear: 0.02 },
-  { tag: "ops · admin", note: "ops tooling", slug: "tingting", lines: ["b", "a", "c"], x: 150, y: 30, z: -230, appear: 0.22 },
-  { tag: "themeforge · ai", note: "ai design tokens", slug: "themeforge", lines: ["c", "b", "a"], x: -110, y: 58, z: -430, appear: 0.46 },
-  { tag: "assessment", note: "b2b admin ux", slug: "skill-assessment-platform", lines: ["a", "c"], x: 120, y: -50, z: -640, appear: 0.7 },
+const SURFACES: Surface[] = [
+  { tag: "customer app", note: "quick commerce", slug: "tingting", media: { type: "image", src: "/work/surface-customer.png" }, x: -210, y: -40, z: -10, appear: 0.02 },
+  { tag: "ops · admin", note: "live ops board", slug: "tingting", media: { type: "video", src: "/work/surface-ops.mp4" }, x: 205, y: 16, z: -250, appear: 0.24 },
+  { tag: "ai · unfold", note: "voice → idea", slug: "themeforge", media: { type: "image", src: "/work/surface-ai.webp" }, x: -165, y: 80, z: -470, appear: 0.48 },
+  { tag: "design system", note: "one token set", slug: "tingting", media: { type: "image", src: "/work/surface-design.webp" }, x: -230, y: -118, z: -700, appear: 0.72 },
 ];
 
 export default function DraftingTable() {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [intensity, setIntensity] = useState<Intensity>("restrained");
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -24,24 +24,28 @@ export default function DraftingTable() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       wrap.classList.add("rm");
       wrap.style.setProperty("--p", "0.5");
+      wrap.querySelectorAll("video").forEach((v) => {
+        v.autoplay = false;
+        v.pause();
+      });
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
-    const easeCinematic = (p: number) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
-    const ease = intensity === "cinematic" ? easeCinematic : (p: number) => p;
     const st = ScrollTrigger.create({
       trigger: wrap,
       start: "top top",
       end: "bottom bottom",
       scrub: true,
-      onUpdate: (self) => wrap.style.setProperty("--p", ease(self.progress).toFixed(4)),
+      onUpdate: (self) => wrap.style.setProperty("--p", self.progress.toFixed(4)),
     });
     return () => st.kill();
-  }, [intensity]);
+  }, []);
 
   return (
-    <section ref={wrapRef} className="dtbl-wrap" data-i={intensity} aria-label="The work, shown dimensionally on a drafting table.">
+    <section ref={wrapRef} className="dtbl-wrap" data-i="restrained" aria-label="The work, shown dimensionally on a drafting table.">
       <div className="dtbl-stage">
+        <div className="dtbl-grid" aria-hidden="true" />
+        <div className="dtbl-glow" aria-hidden="true" />
         <div className="dtbl-head">
           <div>
             <div className="mono dtbl-eyebrow">the work &middot; dimensionally</div>
@@ -49,27 +53,26 @@ export default function DraftingTable() {
               Four kinds of product, <span className="serif-i">one table</span>
             </h2>
           </div>
-          <div className="dtbl-compare mono" role="group" aria-label="preview intensity (temporary)">
-            <span>preview</span>
-            <button className={intensity === "restrained" ? "on" : ""} onClick={() => setIntensity("restrained")}>restrained</button>
-            <button className={intensity === "cinematic" ? "on" : ""} onClick={() => setIntensity("cinematic")}>cinematic</button>
-          </div>
         </div>
 
         <div className="dtbl-scene">
           <div className="dtbl-world">
-            <div className="dtbl-floor" aria-hidden="true" />
             {SURFACES.map((s) => (
               <Link
                 key={s.tag + s.z}
                 href={`/work/${s.slug}`}
                 className="dtbl-card"
+                aria-label={s.tag}
                 style={{ "--x": `${s.x}px`, "--y": `${s.y}px`, "--z": `${s.z}px`, "--appear": s.appear } as CSSProperties}
               >
-                <div className="dtbl-dots" aria-hidden="true"><i /><i /><i /></div>
-                {s.lines.map((c, i) => (
-                  <div className={"dtbl-ln " + c} key={i} aria-hidden="true" />
-                ))}
+                <span className="dtbl-screen" aria-hidden="true">
+                  {s.media.type === "video" ? (
+                    <video src={s.media.src} muted loop playsInline autoPlay preload="metadata" />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={s.media.src} alt="" loading="lazy" />
+                  )}
+                </span>
                 <span className="dtbl-tag mono">{s.tag}</span>
                 <span className="dtbl-note" aria-hidden="true">{s.note}</span>
               </Link>
@@ -79,7 +82,6 @@ export default function DraftingTable() {
 
         <div className="dtbl-foot">
           <span className="dtbl-hint mono"><span className="ln" /> scroll &mdash; the camera walks the table</span>
-          <span className="dtbl-temp mono">↑ temporary compare toggle</span>
         </div>
       </div>
     </section>

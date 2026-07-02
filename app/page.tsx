@@ -3,6 +3,7 @@ import HeroHeadline from "@/components/HeroHeadline";
 import DraftingTable from "@/components/DraftingTable";
 import Reveal from "@/components/Reveal";
 import SecHead from "@/components/SecHead";
+import StatBand from "@/components/StatBand";
 import MarginNote from "@/components/MarginNote";
 import Mock from "@/components/Mocks";
 import Highlight from "@/components/Highlight";
@@ -12,26 +13,36 @@ export default function Home() {
   return (
     <>
       <section className="hero wrap">
-        <div className="hero-eyebrow mono">
-          <span>portfolio &middot; 2026</span>
-          <span>&middot;</span>
-          <span>currently: senior product designer @ diamond atelier</span>
+        <div className="hero-text">
+          <div className="hero-eyebrow mono">
+            <span>portfolio &middot; 2026</span>
+            <span>&middot;</span>
+            <span>currently: senior product designer @ diamond atelier</span>
+          </div>
+          <HeroHeadline />
+          <p className="hero-sub" id="heroSub" style={{ opacity: 0 }}>
+            Product designer with 5 years across customer apps, operations tooling, and AI products.
+            Founding designer of <b>TingTing</b>, a quick-commerce ecosystem that survived 30 stores and
+            40k+ orders. I build my own <b>AI design tools</b> to understand the material I design with.
+          </p>
+          <div className="hero-meta mono" id="heroMeta" style={{ opacity: 0 }}>
+            <span>&#8627; founding designer &middot; 0 &rarr; 30 stores &middot; &#8377;1cr+ transactions</span>
+            <span>&#8627; design systems &middot; ops tooling &middot; ai products</span>
+            <span>&#8627; mumbai, india &middot; open to senior roles</span>
+          </div>
         </div>
-        <HeroHeadline />
-        <p className="hero-sub" id="heroSub" style={{ opacity: 0 }}>
-          Product designer with 5 years across customer apps, operations tooling, and AI products.
-          Founding designer of <b>TingTing</b>, a quick-commerce ecosystem that survived 30 stores and
-          40k+ orders. I build my own <b>AI design tools</b> to understand the material I design with.
-        </p>
-        <div className="hero-meta mono" id="heroMeta" style={{ opacity: 0 }}>
-          <span>&#8627; founding designer &middot; 0 &rarr; 30 stores &middot; &#8377;1cr+ transactions</span>
-          <span>&#8627; design systems &middot; ops tooling &middot; ai products</span>
-          <span>&#8627; mumbai, india &middot; open to senior roles</span>
+        <div className="hero-media">
+          <figure className="portrait hero-portrait">
+            {/* Drop in your image/clip here, e.g. <img src="/work/rahim.jpg" alt="Rahim Rangrez" />
+                or <video src="/work/rahim.mp4" autoPlay muted loop playsInline /> */}
+            <span className="init">RR</span>
+            <span className="ph-note mono">a photo — or a short, quiet clip of you working</span>
+          </figure>
         </div>
         <div className="hero-scroll mono" id="heroScroll" style={{ opacity: 0 }}>
           <span className="ln" /> scroll, the work explains it better
         </div>
-        <MarginNote style={{ top: "26%", right: "6%" }}>
+        <MarginNote style={{ top: "12%", right: "7%" }}>
           trained as a mechanical engineer. it shows (in a good way)
           <span className="arrow">&#8600;</span>
         </MarginNote>
@@ -43,7 +54,7 @@ export default function Home() {
         <div className="wrap">
           <SecHead
             title={<>Selected <span className="serif-i">work</span></>}
-            count="03 case studies · real products, real numbers"
+            count="04 case studies · real products, real numbers"
           />
 
           {projects.map((p, i) => (
@@ -77,6 +88,8 @@ export default function Home() {
         </div>
       </section>
 
+      <StatBand />
+
       <section className="section deep">
         <div className="wrap">
           <SecHead
@@ -87,6 +100,7 @@ export default function Home() {
             <p style={{ color: "var(--muted)", maxWidth: "52ch", marginBottom: 28, fontSize: "1.1rem" }}>
               Working experiments: an AI theme generator, Figma automation, gesture tracking, and the
               layout rule from TingTing&apos;s CMS that operators <Highlight>couldn&apos;t break</Highlight>.
+              Plus a vibe-coded playlist of small builds &mdash; each opens as a working prototype.
             </p>
             <Link className="p-link" href="/playground">
               Open the playground <span>&rarr;</span>

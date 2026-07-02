@@ -15,7 +15,13 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const p = projects.find((x) => x.slug === params.slug);
   if (!p) return {};
-  return { title: `${p.titlePre}${p.titleItalic}${p.titlePost} \u2014 Rahim Rangrez` };
+  const title = `${p.titlePre}${p.titleItalic}${p.titlePost}`;
+  return {
+    title,
+    description: p.summary,
+    alternates: { canonical: `/work/${p.slug}` },
+    openGraph: { title, description: p.summary, type: "article" },
+  };
 }
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");

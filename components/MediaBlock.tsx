@@ -2,12 +2,14 @@ import type { Media } from "@/lib/projects";
 import SystemMap from "@/components/SystemMap";
 import ScalingMap from "@/components/ScalingMap";
 import DukanRule from "@/components/DukanRule";
+import GlassboxDemo from "@/components/GlassboxDemo";
 import Blueprint from "@/components/Blueprint";
 
 const WIDGETS: Record<string, React.ReactNode> = {
   "system-map": <SystemMap />,
   "scaling-map": <ScalingMap />,
   "dukan-rule": <DukanRule />,
+  "glassbox-demo": <GlassboxDemo />,
   "bp-tokens": <Blueprint kind="tokens" />,
   "bp-components": <Blueprint kind="components" />,
   "bp-flow": <Blueprint kind="flow" />,

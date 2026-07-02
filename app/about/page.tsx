@@ -4,7 +4,11 @@ import SecHead from "@/components/SecHead";
 import Highlight from "@/components/Highlight";
 import MarginNote from "@/components/MarginNote";
 
-export const metadata: Metadata = { title: "About \u2014 Rahim Rangrez" };
+export const metadata: Metadata = {
+  title: "About",
+  description: "Engineer first, designer by conviction \u2014 why I treat every interface as a system with loads and failure modes.",
+  alternates: { canonical: "/about" },
+};
 
 export default function About() {
   return (
